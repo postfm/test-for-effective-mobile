@@ -4,13 +4,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p .",
-    "dev": "tsc -w -p .",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run build && node ./dist/index.js",
+    "start:dev": "nodemon",
+    "build": "npm run clean && npm run compile",
+    "compile": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "lint": "eslint src/ --ext .ts"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +17,19 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.37.0",
+    "@types/express": "^5.0.3",
     "@types/node": "^24.7.2",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
+    "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.1"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
   }
 }
