@@ -1,0 +1,43 @@
+services:
+  test.users.postgres:
+    image: postgres:latest
+    container_name: test.users.postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}`
+    ports:
+      - 5432:5432
+    volumes:
+      - test.postgres.users:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d {POSTGRES_PASSWORD}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    networks:
+      - test.users
+
+  test.users.pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: test.users.pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - 8082:80
+    depends_on:
+      - test.users.postgres
+    networks:
+      - test.users
+
+volumes:
+  test.postgres.users:
+
+networks:
+  test.users:
+    driver: bridge
