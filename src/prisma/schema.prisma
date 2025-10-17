@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -25,6 +25,11 @@ model User {
   updateAt  DateTime @updatedAt @map("updated_at")
 
   @@index([name])
+  @@map("users")
 }
 
-// Команда для миграции npx prisma migrate dev --name "Added model for User" --schema ./prisma/schema.prisma --skip-generate
+// Команда для миграции npx prisma migrate dev --name "Added model for User" --schema ./src/prisma/schema.prisma --skip-generate
+// Команда для проверки npx prisma validate --schema ./src/prisma/schema.prisma
+// Команда для сброса npx prisma reset --schema ./src/prisma/schema.prisma --force --skip-generate --skip-seed
+// Команда для генерации клиента npx prisma generate --schema ./src/prisma/schema.prisma
+// Команда для заполнения БД npx -ts-node ./src/prisma/seed.ts
