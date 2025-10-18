@@ -1,67 +1,65 @@
 ####################################################################################################
 ############################## Сервис пользователей #################################################
 ####################################################################################################
-@userId={{login.response.body.id}}
-@email={{login.response.body.email}}
-@AToken={{login.response.body.accessToken}}
+@userId={{login.response.body.user.id}}
+@email={{login.response.body.user.email}}
+@AToken={{login.response.body.token}}
 
 
 
-# Создание нового пользователя
-# @name create
-POST http://localhost:4000/api/users HTTP/1.1
+# Регистрация нового пользователя
+# @name register
+POST http://localhost:4000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
   "name": "John",
-  "email": "kek01@notfound.local",
+  "email": "keks@notfound.local",
   "password": "123456",
-  "role": "admin",
+  "role": "user",
   "status":"active"
 }
 
 ###
 
-# Обновление пользователя
-# @name update
-PUT http://localhost:4000/api/users/0dcf95fe-3b48-430a-bebe-ff034810d5b3 HTTP/1.1
+# Аутентификация пользователя
+# @name login
+POST http://localhost:4000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "kek01@notfound.local",
-  "status":"Not Active"
+  "email": "keks@notfound.local",
+  "password": "123456"
 }
 
 ###
 
 # Получение всех пользователей
 GET http://localhost:4000/api/users HTTP/1.1
+Authorization: Bearer {{AToken}}
 
 ###
 
 # Получение информации о пользователе по ID
-GET http://localhost:4000/api/users/b4a99267-9f45-4c75-974f-588fc17c6228 HTTP/1.1
+GET http://localhost:4000/api/users/{{userId}} HTTP/1.1
+Authorization: Bearer {{AToken}}
 
 ###
 
-# Удаление пользователя
-DELETE  http://localhost:4000/api/users/b4a99267-9f45-4c75-974f-588fc17c6228 HTTP/1.1
-
-###
-
-# Аутентификация пользователя
-# @name login
-POST http://localhost:4000/guitar/auth-user/login HTTP/1.1
+# Обновление пользователя
+# @name update
+PUT http://localhost:4000/api/users/{{userId}} HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{AToken}}
 
 {
-  "email": "keks@gmail.com",
-  "password": "123123"
+  "email": "keks@notfound.local",
+  "status": "Not Active"
 }
 
 ###
 
-# Проверка пользователя по токену
-GET http://localhost:4000/guitar/auth-user/validate/{{AToken}} HTTP/1.1
-Authorization: Bearer {{AToken}}
 
+# Удаление пользователя
+DELETE  http://localhost:4000/api/users/30a18dd9-c2ba-4a21-8afb-3dc4770dce5a HTTP/1.1
+Authorization: Bearer {{AToken}}

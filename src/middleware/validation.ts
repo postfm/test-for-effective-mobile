@@ -6,6 +6,7 @@ export const validateUser = (
   next: NextFunction
 ) => {
   const { email } = req.body;
+  console.log(email);
 
   if (!email) {
     return res.status(400).json({ error: 'Email не может быть пустым' });
