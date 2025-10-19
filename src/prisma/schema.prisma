@@ -37,4 +37,4 @@ enum UserRole {
 // Команда для проверки npx prisma validate --schema ./src/prisma/schema.prisma
 // Команда для сброса npx prisma reset --schema ./src/prisma/schema.prisma --force --skip-generate --skip-seed
 // Команда для генерации клиента npx prisma generate --schema ./src/prisma/schema.prisma
-// Команда для заполнения БД npx -ts-node ./src/prisma/seed.ts
+// Команда для заполнения БД npx ts-node-dev ./src/prisma/seed.ts
