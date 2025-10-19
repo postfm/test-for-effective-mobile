@@ -1,6 +1,6 @@
 import { ExtractJwt, StrategyOptions, Strategy as JwtStrategy } from 'passport-jwt';
-import { JwtPayload, UserRole } from '../types/user-interface';
-import prisma from '../prisma/prisma';
+import { JwtPayload, UserRole } from '../../user/types/user-interface';
+import prisma from '../../../prisma/prisma';
 import passport from 'passport';
 
 const jwtOptions: StrategyOptions = {

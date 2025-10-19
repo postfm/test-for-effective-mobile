@@ -1,5 +1,5 @@
 import passport from 'passport';
-import { UserRole } from '../types/user-interface';
+import { UserRole } from '../features/user/types/user-interface';
 import { Request, Response, NextFunction } from 'express';
 
 export const authenticate = passport.authenticate('jwt', { session: false });

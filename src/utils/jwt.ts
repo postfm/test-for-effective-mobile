@@ -1,4 +1,4 @@
-import { JwtPayload } from './../types/user-interface';
+import { JwtPayload } from '../features/user/types/user-interface';
 import { StringValue } from 'ms';
 import jwt from 'jsonwebtoken';
 
