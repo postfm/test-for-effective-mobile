@@ -17,10 +17,11 @@ datasource db {
 model User {
   id        String @id @default(uuid()) @map("id")
   name      String 
+  birthday  DateTime      
   email     String @unique
   password  String
   role      UserRole @default(USER)
-  status    String
+  status    UserStatus @default(ACTIVE)
   createAt  DateTime @default(now()) @map("created_at")
   updateAt  DateTime @updatedAt @map("updated_at")
 
@@ -33,8 +34,7 @@ enum UserRole {
   ADMIN
 }
 
-// Команда для миграции npx prisma migrate dev --name "Added model for User" --schema ./src/prisma/schema.prisma --skip-generate
-// Команда для проверки npx prisma validate --schema ./src/prisma/schema.prisma
-// Команда для сброса npx prisma reset --schema ./src/prisma/schema.prisma --force --skip-generate --skip-seed
-// Команда для генерации клиента npx prisma generate --schema ./src/prisma/schema.prisma
-// Команда для заполнения БД npx ts-node-dev ./src/prisma/seed.ts
+enum UserStatus {
+  ACTIVE
+  NOT_ACTIVE
+}

@@ -5,7 +5,7 @@ import { authService } from '../services/auth.services';
 export const authController = {
   async register(req: Request, res: Response) {
     try {
-      const newUser = await authService.register(req.body);
+      const newUser = await authService.register(res, req.body);
 
       res.status(201).json(newUser);
     } catch (error) {
@@ -17,7 +17,7 @@ export const authController = {
   async login(req: Request, res: Response) {
     try {
       const { email, password }: LoginUser = req.body;
-      const authUser = await authService.login(email, password);
+      const authUser = await authService.login(res, email, password);
 
       res.json(authUser);
     } catch (error) {

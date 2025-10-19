@@ -1,11 +1,12 @@
 import prisma from '../../../prisma/prisma';
-import { type UpdateUser } from '../types/user-interface';
+import { UserStatus, type UpdateUser } from '../types/user-interface';
 
 export const userRepository = {
   getUsers: async () => {
     return prisma.user.findMany({
       select: {
         id: true,
+        birthday: true,
         name: true,
         email: true,
         role: true,
@@ -20,16 +21,12 @@ export const userRepository = {
     });
   },
 
-  updateUser: async (id: string, data: UpdateUser) => {
-    return prisma.user.update({
-      where: { id },
-      data,
-    });
-  },
-
   deleteUser: async (id: string) => {
-    await prisma.user.delete({
+    await prisma.user.update({
       where: { id },
+      data: {
+        status: UserStatus.NOT_ACTIVE,
+      },
     });
   },
 };

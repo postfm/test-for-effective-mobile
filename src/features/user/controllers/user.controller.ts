@@ -16,7 +16,7 @@ export const userController = {
   getUser: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const user = await userService.getUser(id, req.user);
+      const user = await userService.getUser(res, id, req.user);
 
       res.json(user);
     } catch (error) {
@@ -25,24 +25,11 @@ export const userController = {
     }
   },
 
-  updateUser: async (req: Request, res: Response) => {
-    try {
-      const { id } = req.params;
-      const data = req.body as UpdateUser;
-      const user = await userService.updateUser(id, data, req.user);
-
-      res.json(user);
-    } catch (error) {
-      console.error(error);
-      res.status(400).json({ error: 'Ошибка при обновлении пользователя.' });
-    }
-  },
-
   deleteUser: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
 
-      await userService.deleteUser(id, req.user);
+      await userService.deleteUser(res, id, req.user);
 
       res.status(204).send();
     } catch (error) {

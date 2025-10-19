@@ -10,7 +10,7 @@
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "lint": "eslint src/ --ext .ts",
-    "db:migrate": "npx prisma migrate dev --name --schema ./src/prisma/schema.prisma --skip-generate",
+    "db:migrate": "npx prisma migrate dev --name \"Added model for User\" --schema ./src/prisma/schema.prisma --skip-generate",
     "db:validate": "npx prisma validate --schema ./src/prisma/schema.prisma",
     "db:generate": "npx prisma generate --schema ./src/prisma/schema.prisma",
     "db:seed": "npx ts-node-dev ./src/prisma/seed.ts"

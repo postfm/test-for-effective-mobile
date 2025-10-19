@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { fakerDE as faker } from '@faker-js/faker';
+import { fakerRU as faker } from '@faker-js/faker';
 
 const INIT_COUNT_VALUE = 0;
 const COUNT_VALUE = 20;
@@ -11,10 +11,11 @@ function getUsers() {
     users.push({
       id: faker.string.uuid(),
       name: faker.person.fullName(),
+      birthday: faker.date.birthdate(),
       email: emails[i],
       password: faker.internet.password(),
       role: faker.helpers.arrayElement(['ADMIN', 'USER']),
-      status: faker.helpers.arrayElement(['Active', 'Not Active']),
+      status: faker.helpers.arrayElement(['ACTIVE', 'NOT_ACTIVE']),
     });
   }
   return users;
@@ -29,6 +30,7 @@ async function seedDb(prismaClient: PrismaClient) {
       create: {
         id: user.id,
         name: user.name,
+        birthday: user.birthday,
         email: user.email,
         password: user.password,
         role: user.role,

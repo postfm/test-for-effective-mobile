@@ -8,7 +8,6 @@ const router = Router();
 
 router.get('/', requiredAuth, requireAdmin, (req, res) => userController.getUsers(req, res));
 router.get('/:id', requiredAuth, (req, res) => userController.getUser(req, res));
-router.put('/:id', requiredAuth, (req: Request, res) => userController.updateUser(req, res));
-router.delete('/:id', requiredAuth, (req, res) => userController.deleteUser(req, res));
+router.put('/:id', requiredAuth, (req, res) => userController.deleteUser(req, res));
 
 export default router;

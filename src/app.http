@@ -14,9 +14,10 @@ Content-Type: application/json
 
 {
   "name": "John",
-  "email": "keksic@notfound.local",
+  "birthday": "1999-01-21 16:44:55.512",
+  "email": "keks@notfound.local",
   "password": "123456",
-  "role": "user",
+  "role": "admin",
   "status":"active"
 }
 
@@ -28,7 +29,7 @@ POST http://localhost:4000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "keksic@notfound.local",
+  "email": "keks@notfound.local",
   "password": "123456"
 }
 
@@ -44,21 +45,10 @@ Authorization: Bearer {{AToken}}
 GET http://localhost:4000/api/users/{{userId}} HTTP/1.1
 Authorization: Bearer {{AToken}}
 
-###
-
-# Обновление пользователя
-# @name update
-PUT http://localhost:4000/api/users/1970dcca-9505-4e2e-b272-28d3ef710405 HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{AToken}}
-
-{
-  "status": "Not Active"
-}
 
 ###
 
 
-# Удаление пользователя
-DELETE  http://localhost:4000/api/users/1970dcca-9505-4e2e-b272-28d3ef710405 HTTP/1.1
+# Блокировка пользователя
+PUT  http://localhost:4000/api/users/085a1889-4c9a-479b-af94-76cd23c81a73 HTTP/1.1
 Authorization: Bearer {{AToken}}

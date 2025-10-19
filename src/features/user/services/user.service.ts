@@ -1,17 +1,19 @@
 import prisma from '../../../prisma/prisma';
-import { JwtPayload, UserRole, type UpdateUser } from '../types/user-interface';
+import { JwtPayload, UserRole, UserStatus, type UpdateUser } from '../types/user-interface';
 import { userRepository } from '../repository/user.repository';
+import { Response } from 'express';
 
 export const userService = {
   getUsers: async () => {
     return userRepository.getUsers();
   },
 
-  getUser: async (id: string, user: JwtPayload | undefined) => {
+  getUser: async (res: Response, id: string, user: JwtPayload | undefined) => {
     const isUserExist = await prisma.user.findUnique({
-      where: { id },
+      where: { id, status: UserStatus.ACTIVE },
       select: {
         id: true,
+        birthday: true,
         name: true,
         email: true,
         role: true,
@@ -20,36 +22,17 @@ export const userService = {
     });
 
     if (!isUserExist) {
-      throw new Error(`Пользователь с id: ${id} не найден`);
+      return res.status(404).json({ error: `Пользователь с id: ${id} не найден` });
     }
 
     if (user?.role !== UserRole.ADMIN && user?.userId !== id) {
-      throw new Error('Недостаточно прав.');
+      return res.status(403).json({ error: 'Недостаточно прав' });
     }
 
     return isUserExist;
   },
 
-  updateUser: async (id: string, data: UpdateUser, user: JwtPayload | undefined) => {
-    if (user?.role !== UserRole.ADMIN && user?.userId !== id) {
-      throw new Error('Недостаточно прав.');
-    }
-
-    const isUserExist = await prisma.user.update({
-      where: { id },
-      data,
-    });
-
-    return {
-      id: isUserExist.id,
-      name: isUserExist.name,
-      email: isUserExist.email,
-      role: isUserExist.role,
-      status: isUserExist.status,
-    };
-  },
-
-  deleteUser: async (id: string, user: JwtPayload | undefined) => {
+  deleteUser: async (res: Response, id: string, user: JwtPayload | undefined) => {
     if (user?.role !== UserRole.ADMIN && user?.role !== id) {
       throw new Error('Недостаточно прав.');
     }

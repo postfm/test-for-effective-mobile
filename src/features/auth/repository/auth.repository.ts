@@ -1,21 +1,22 @@
-import { CreateUser, UserRole } from '../../user/types/user-interface';
+import { CreateUser, UserRole, UserStatus } from '../../user/types/user-interface';
 import prisma from '../../../prisma/prisma';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../../../utils/jwt';
 
 export const authRepository = {
   async register(data: CreateUser) {
-    const { name, email, password, role, status } = data;
+    const { name, birthday, email, password, role } = data;
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({
       data: {
         name,
+        birthday: new Date(birthday),
         email,
         password: hashedPassword,
         role: (role.toUpperCase() as UserRole) || UserRole.USER,
-        status,
+        status: UserStatus.ACTIVE,
       },
     });
 
@@ -23,6 +24,7 @@ export const authRepository = {
       userId: user.id,
       email: user.email,
       role: user.role as UserRole,
+      status: user.status as UserStatus,
     });
 
     return {
@@ -30,6 +32,7 @@ export const authRepository = {
       user: {
         id: user.id,
         name: user.name,
+        birthday: user.birthday,
         email: user.email,
         role: user.role,
         status: user.status,
@@ -46,6 +49,7 @@ export const authRepository = {
       userId: user?.id as string,
       email: user?.email as string,
       role: user?.role as UserRole,
+      status: user?.status as UserStatus,
     });
 
     return {
@@ -53,6 +57,7 @@ export const authRepository = {
       user: {
         id: user?.id,
         name: user?.name,
+        birthday: user?.birthday,
         email: user?.email,
         role: user?.role,
         status: user?.status,
